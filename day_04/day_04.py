@@ -1,7 +1,8 @@
+dimension = 5
+
 
 def day_4_1(path):
-    dimension = 5
-    numbers, boards, boards_visited = read_boards(path, dimension)
+    numbers, boards, boards_visited = read_boards(path)
     found_winner = False
     winner = -1
     board_winner_index = -1
@@ -11,7 +12,7 @@ def day_4_1(path):
                 for n in range(dimension):
                     if num == boards[board_index][row_index][n]:
                         boards_visited[board_index][row_index][n] = 1
-                        if sum(boards_visited[board_index][row_index]) == dimension or find_column_sum(boards_visited[board_index], dimension) == dimension:
+                        if has_won(boards_visited[board_index], row_index, n):
                             found_winner = True
                             winner = num
                             board_winner_index = board_index
@@ -27,19 +28,35 @@ def day_4_1(path):
     print(boards)
     print(boards_visited)
 
-    board_winner, board_winner_visited = boards[board_winner_index], boards_visited[board_winner_index]
+    sum_uncalled = calculate_sum_uncalled(boards[board_winner_index], boards_visited[board_winner_index])
+    return sum_uncalled * winner
+
+
+def has_won(board, row_index, column_index):
+    return sum(board[row_index]) == dimension or find_column_sum(board, column_index) == dimension
+
+
+def find_column_sum(board, column_index):
+    column_sum = 0
+    for row_index in range(dimension):
+        column_sum += board[row_index][column_index]
+    if column_sum == dimension:
+        return column_sum
+    return column_sum
+
+
+def calculate_sum_uncalled(board_winner, board_winner_visited):
     sum_uncalled = 0
     for i in range(dimension):
         for j in range(dimension):
             if board_winner_visited[i][j] == 0:
                 sum_uncalled += board_winner[i][j]
     print("Sum uncalled = ", sum_uncalled)
-    return sum_uncalled * winner
+    return sum_uncalled
 
 
 def day_4_2(path):
-    dimension = 5
-    numbers, boards, boards_visited = read_boards(path, dimension)
+    numbers, boards, boards_visited = read_boards(path)
     latest_winner = -1
     latest_board_winner_index = -1
     won_boards = set()
@@ -51,8 +68,7 @@ def day_4_2(path):
                 for n in range(dimension):
                     if num == boards[board_index][row_index][n]:
                         boards_visited[board_index][row_index][n] = 1
-                        if sum(boards_visited[board_index][row_index]) == dimension or \
-                                find_column_sum(boards_visited[board_index], dimension) == dimension:
+                        if has_won(boards_visited[board_index], row_index, n):
                             latest_winner = num
                             latest_board_winner_index = board_index
                             won_boards.add(latest_board_winner_index)
@@ -61,28 +77,11 @@ def day_4_2(path):
     print(boards_visited)
     print("Last board to win #", latest_board_winner_index)
 
-    board_winner, board_winner_visited = boards[latest_board_winner_index], boards_visited[latest_board_winner_index]
-    sum_uncalled = 0
-    for i in range(dimension):
-        for j in range(dimension):
-            if board_winner_visited[i][j] == 0:
-                sum_uncalled += board_winner[i][j]
-    print("Sum uncalled = ", sum_uncalled)
+    sum_uncalled = calculate_sum_uncalled(boards[latest_board_winner_index], boards_visited[latest_board_winner_index])
     return sum_uncalled * latest_winner
 
 
-def find_column_sum(board, dimension):
-    column_sum = 0
-    for n in range(dimension):
-        for row_index in range(dimension):
-            column_sum += board[row_index][n]
-        if column_sum == dimension:
-            return column_sum
-        column_sum = 0
-    return column_sum
-
-
-def read_boards(path, dimension):
+def read_boards(path):
     numbers = []
     boards, boards_visited = [], []
     board, board_visited = [], []
