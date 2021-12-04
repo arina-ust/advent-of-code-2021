@@ -40,8 +40,6 @@ def find_column_sum(board, column_index):
     column_sum = 0
     for row_index in range(dimension):
         column_sum += board[row_index][column_index]
-    if column_sum == dimension:
-        return column_sum
     return column_sum
 
 
