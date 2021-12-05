@@ -14,5 +14,5 @@ if __name__ == '__main__':
     # print(day_3_2("day_03/full.txt"))  # expected 230 for easy
     # print(day_4_1("day_04/full.txt"))  # expected 4512 for easy
     # print(day_4_2("day_04/full.txt"))  # expected 1924 for easy
-    print(day_5_1("day_05/easy.txt"))  # expected 5 for easy
+    print(day_5_1("day_05/full.txt", False))  # expected 5 and 12 for easy
 

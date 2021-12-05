@@ -45,10 +45,38 @@ class Line:
             max_y = max(self.start.y, self.end.y)
             return [Point(self.start.x, y) for y in range(min_y, max_y+1)]
         else:
-            pass
+            min_x = min(self.start.x, self.end.x)
+            max_x = max(self.start.x, self.end.x)
+            min_y = min(self.start.y, self.end.y)
+            max_y = max(self.start.y, self.end.y)
+
+            result = []
+            x = self.start.x
+            y = self.start.y
+            if x == min_x and y == min_y:
+                while x <= self.end.x and y <= self.end.y:
+                    result.append(Point(x, y))
+                    x += 1
+                    y += 1
+            elif x == max_x and y == max_y:
+                while x >= self.end.x and y >= self.end.y:
+                    result.append(Point(x, y))
+                    x -= 1
+                    y -= 1
+            elif x == max_x and y == min_y:
+                while x >= self.end.x and y <= self.end.y:
+                    result.append(Point(x, y))
+                    x -= 1
+                    y += 1
+            else:
+                while x <= self.end.x and y >= self.end.y:
+                    result.append(Point(x, y))
+                    x += 1
+                    y -= 1
+            return result
 
 
-def day_5_1(path):
+def day_5_1(path, is_part_one):
     lines = [Line(s) for s in common.read_string_list(path)]
     # print(lines)
 
@@ -69,7 +97,7 @@ def day_5_1(path):
     # print(area)
 
     for line in lines:
-        if not (line.is_horizontal() or line.is_vertical()):
+        if is_part_one and (not (line.is_horizontal() or line.is_vertical())):
             # print(line.get_all_points())
             continue
         # print(line.get_all_points())
