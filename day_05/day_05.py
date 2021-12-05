@@ -98,8 +98,8 @@ def get_max_coordinates(lines):
 
 def get_empty_area(max_x, max_y):
     area = []
-    for x in range(max_x + 1):
-        area.append([0] * (max_y + 1))
+    for y in range(max_y + 1):
+        area.append([0] * (max_x + 1))
     return area
 
 
