@@ -8,6 +8,7 @@ from day_06.day_06 import day_6_1, day_6_2
 from day_07.day_07 import day_7_1, day_7_2
 from day_08.day_08 import day_8_1, day_8_2
 from day_09.day_09 import day_9_1, day_9_2
+from day_10.day_10 import day_10_1, day_10_2
 
 if __name__ == '__main__':
     # print(day_1_1("day_01/full.txt"))  # expected 7 for easy
@@ -26,5 +27,7 @@ if __name__ == '__main__':
     # print(day_8_1("day_08/full.txt"))  # expected 26 for easy
     # print(day_8_2("day_08/full.txt"))  # expected 61229 for easy
     # print(day_9_1("day_09/full.txt"))  # expected 15 for easy
-    print(day_9_2("day_09/full.txt"))  # expected 1134 for easy
+    # print(day_9_2("day_09/full.txt"))  # expected 1134 for easy
+    # print(day_10_1("day_10/full.txt"))  # expected 26397 for easy
+    print(day_10_2("day_10/full.txt"))  # expected 288957 for easy
 
