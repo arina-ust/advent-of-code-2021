@@ -19,3 +19,10 @@ def read_string_list(path):
         lines = file.readlines()
         lines = [line.rstrip() for line in lines]
     return lines
+
+
+def read_int_list_of_lists(path):
+    with open(path) as file:
+        lines = file.readlines()
+        lines = [[int(c) for c in line.rstrip()] for line in lines]
+    return lines
