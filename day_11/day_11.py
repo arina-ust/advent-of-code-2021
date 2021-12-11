@@ -27,6 +27,32 @@ def day_11_1(path):
     return n_flashes
 
 
+def day_11_2(path):
+    grid = common.read_int_list_of_lists(path)
+
+    step = 1
+    while True:
+        marked = {}
+        step_flashes = 0
+        for y in range(n_grid):
+            for x in range(n_grid):
+                grid[y][x] += 1
+
+        while increase_neighbors(grid, marked) > 0:
+            continue
+
+        for y in range(n_grid):
+            for x in range(n_grid):
+                if grid[y][x] > 9:
+                    grid[y][x] = 0
+                    step_flashes += 1
+
+        if step_flashes == n_grid * n_grid:
+            return step
+
+        step += 1
+
+
 def increase_neighbors(grid, marked):
     n_flashes_back = 0
     for y in range(n_grid):
