@@ -83,3 +83,51 @@ def visit(cave, seen, path, paths):
         if (c not in seen) or (not seen[c]) or c.is_large:
             visit(c, seen, path, paths)
     seen[cave] = False
+
+
+def day_12_2(path):
+    cave_connections = [conn.strip() for conn in common.read_string_list(path)]
+    # print(cave_connections)
+
+    cs = CaveSystem(cave_connections)
+    # print(cs)
+
+    all_paths = set()
+
+    small_caves = [name for name, cave in cs.caves.items() if not cave.is_large and name != "start" and name != "end"]
+
+    for small in small_caves:
+        paths = []
+
+        start = cs.caves["start"]
+        seen = {}
+
+        visit_2(start, seen, "", paths, small)
+
+        [all_paths.add(p) for p in paths]
+
+    # print(paths)
+    return len(all_paths)
+
+
+def visit_2(cave, seen, path, paths, exception):
+    if cave.name == "end":
+        paths.append(path+"end")
+        return
+
+    if (cave in seen and seen[cave] > 0) and not cave.is_large:
+        if cave.name != exception or seen[cave] > 1:
+            return
+
+    if cave.name == exception and cave in seen:
+        seen[cave] += 1
+    else:
+        seen[cave] = 1
+
+    path += cave.name
+
+    for c in cave.connections:
+        if (c not in seen) or (seen[c] == 0) or c.is_large or (c.name == exception and seen[c] == 1):
+            visit_2(c, seen, path, paths, exception)
+
+    seen[cave] -= 1
