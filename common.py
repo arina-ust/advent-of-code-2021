@@ -26,3 +26,16 @@ def read_int_list_of_lists(path):
         lines = file.readlines()
         lines = [[int(c) for c in line.rstrip()] for line in lines]
     return lines
+
+
+class Point:
+
+    def __init__(self, x: int, y: int):
+        self.x = x
+        self.y = y
+
+    def __str__(self):
+        return 'Point({self.x}, {self.y})'.format(self=self)
+
+    def __repr__(self):
+        return str(self)

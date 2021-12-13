@@ -1,19 +1,6 @@
 import common
 
 
-class Point:
-
-    def __init__(self, x: int, y: int):
-        self.x = x
-        self.y = y
-
-    def __str__(self):
-        return 'Point({self.x}, {self.y})'.format(self=self)
-
-    def __repr__(self):
-        return str(self)
-
-
 class Line:
 
     def __init__(self, string_repr: str):
@@ -21,8 +8,8 @@ class Line:
         x1, y1 = points[0].strip().split(",")
         x2, y2 = points[1].strip().split(",")
 
-        self.start = Point(int(x1), int(y1))
-        self.end = Point(int(x2), int(y2))
+        self.start = common.Point(int(x1), int(y1))
+        self.end = common.Point(int(x2), int(y2))
 
         self.min_x = min(self.start.x, self.end.x)
         self.max_x = max(self.start.x, self.end.x)
@@ -43,31 +30,31 @@ class Line:
 
     def get_all_points(self):
         if self.is_horizontal():
-            return [Point(x, self.start.y) for x in range(self.min_x, self.max_x+1)]
+            return [common.Point(x, self.start.y) for x in range(self.min_x, self.max_x + 1)]
         elif self.is_vertical():
-            return [Point(self.start.x, y) for y in range(self.min_y, self.max_y+1)]
+            return [common.Point(self.start.x, y) for y in range(self.min_y, self.max_y+1)]
         else:
             result = []
             x = self.start.x
             y = self.start.y
             if x == self.min_x and y == self.min_y:
                 while x <= self.end.x and y <= self.end.y:
-                    result.append(Point(x, y))
+                    result.append(common.Point(x, y))
                     x += 1
                     y += 1
             elif x == self.max_x and y == self.max_y:
                 while x >= self.end.x and y >= self.end.y:
-                    result.append(Point(x, y))
+                    result.append(common.Point(x, y))
                     x -= 1
                     y -= 1
             elif x == self.max_x and y == self.min_y:
                 while x >= self.end.x and y <= self.end.y:
-                    result.append(Point(x, y))
+                    result.append(common.Point(x, y))
                     x -= 1
                     y += 1
             else:
                 while x <= self.end.x and y >= self.end.y:
-                    result.append(Point(x, y))
+                    result.append(common.Point(x, y))
                     x += 1
                     y -= 1
             return result
