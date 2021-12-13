@@ -1,7 +1,7 @@
 import common
 
 
-def day_13_1(path):
+def day_13_1(path, is_part_one):
     all_input = common.read_string_list(path)
 
     coordinates = []
@@ -17,34 +17,51 @@ def day_13_1(path):
         grid[point.y][point.x] = 1
 
     # first fold y in easy, x in full
-    fold = instructions[0]
-    coord = fold.coord
     max_x_next = max_x
     max_y_next = max_y
-    if fold.is_along_y():
-        add_to_y = coord - 1
-        for y in range(coord+1, max_y_next+1):
-            for x in range(max_x+1):   # ???
-                point_to_disappear = grid[y][x]
-                point_to_add = grid[add_to_y][x]
-                if point_to_add == 0:
-                    grid[add_to_y][x] += point_to_disappear
-                grid[y][x] = 0
-            add_to_y -= 1
-        max_y_next = coord - 1
-    else:
-        for y in range(max_y+1):  # ???
-            add_to_x = coord - 1
-            for x in range(coord + 1, max_x_next + 1):
-                point_to_disappear = grid[y][x]
-                point_to_add = grid[y][add_to_x]
-                if point_to_add == 0:
-                    grid[y][add_to_x] += point_to_disappear
-                grid[y][x] = 0
-                add_to_x -= 1
-        max_x_next = coord - 1
+    for fold in instructions:
+        coord = fold.coord
+        if fold.is_along_y():
+            add_to_y = coord - 1
+            for y in range(coord+1, max_y_next+1):
+                for x in range(max_x+1):
+                    point_to_disappear = grid[y][x]
+                    point_to_add = grid[add_to_y][x]
+                    if point_to_add == 0:
+                        grid[add_to_y][x] += point_to_disappear
+                    grid[y][x] = 0
+                add_to_y -= 1
+            max_y_next = coord - 1
 
-    return count_dots(grid)
+            if is_part_one:
+                break
+        else:
+            for y in range(max_y+1):
+                add_to_x = coord - 1
+                for x in range(coord + 1, max_x_next + 1):
+                    point_to_disappear = grid[y][x]
+                    point_to_add = grid[y][add_to_x]
+                    if point_to_add == 0:
+                        grid[y][add_to_x] += point_to_disappear
+                    grid[y][x] = 0
+                    add_to_x -= 1
+            max_x_next = coord - 1
+
+            if is_part_one:
+                break
+
+    if is_part_one:
+        return count_dots(grid)
+    else:
+        print_code(grid, max_x_next, max_y_next)
+
+
+def print_code(grid, max_x_next, max_y_next):
+    for j in range(max_y_next + 1):
+        line = ""
+        for i in range(max_x_next + 1):
+            line += str(grid[j][i])
+        print(line.replace("0", " "))
 
 
 def count_dots(grid):
